@@ -233,7 +233,8 @@ export default class Game {
         roles.push(role)
       }
     })
-
+    if (roles.length < n)
+	roles.fill(new Role(_.find(arrayRoles, { name: 'Citizen'}) ,roles.length - 1, n)
     return _.shuffle(roles)
   }
 
