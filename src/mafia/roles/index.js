@@ -22,7 +22,7 @@ import serialKiller from './serialKiller'
 import survivor from './survivor'
 
 const arrayRoles = [arsonist, bodyguard, citizen, cop, consigliere, consort,
-  doctor, escort, framer, godfather, investigator, janitor, jester, lookout,
-  mafioso, serialKiller, survivor, tracker, veteran, vigilante]
+      doctor, escort, framer, godfather, investigator, janitor, jester, lookout,
+      mafioso, serialKiller, survivor, tracker, veteran, vigilante]
 
-export default arrayRoles
+      export default arrayRoles
