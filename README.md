@@ -74,10 +74,7 @@ In Slack: **direct message the bot** with theses commands:
 !mafia newgame # create game channels or kick everyone in them
 !mafia setroles # instantiate game with players in the public town channel
 !mafia startgame # start game
-# The following commands are not implemented yet
-!mafia force-end <password> # delete ongoing game
-!mafia leaderboard # display leaderboard
-!mafia leaderboard-reset <password> # reset all scores
+!mafia quickstart # newgame + setroles + startgame
 ```
 
 ### In game commands.
