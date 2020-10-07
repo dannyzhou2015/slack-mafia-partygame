@@ -34,11 +34,11 @@ const miscStrings = {
         no: 'No',
 
         lastWill(name) {
-            return name + "'s last will"
+            return name + "'s last words"
         },
 
         cleaned: 'Unknown',
-        roleBlocked: 'You have been role blocked. Your action has been cancelled.'
+        roleBlocked: 'A mysterious person came by and occupied your night :kiss: ... You did nothing productive.'
 
     },
 

@@ -33,7 +33,7 @@ export default class JanitorStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Sanitize one player each night. If the player is killed that night, his role won`t be revealed and his last will will be cleared.',
+                                     en: 'Sanitize one player each night. If the player is killed that night, his role won`t be revealed and his last words will be cleared.',
                                      fr: 'Nettoie un joueur chaque nuit. Si le joueur est tué cette nuit là, son rôle ne sera pas dévoilé le jour suivant et son testament sera effacé.'
                                  }
                          }

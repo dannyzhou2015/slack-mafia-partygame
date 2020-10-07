@@ -82,8 +82,8 @@ In Slack: **direct message the bot** with theses commands:
 
 ### In game commands.
 ```bash
-!lw # show your last will
-!lw <text> # replace your last will with <text>
+!lw # show your last words
+!lw <text> # replace your last words with <text>
 !reveal # reveal your role to the town (doesn't work with all roles)
 ```
 

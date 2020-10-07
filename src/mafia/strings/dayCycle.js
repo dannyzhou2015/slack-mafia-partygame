@@ -55,6 +55,11 @@ export default class DayCycleStrings extends MafiaGameStrings {
                                      en: 'It seems nobody is suspect. :innocent:',
                                      fr: 'Il n\'y a apparement pas de suspect. :innocent:'
                                  }
+                             case 'noVote-even':
+                                  return {
+                                     en: 'The votes on each side are dead even! Nobody get lynched today. :joy:',
+                                     fr: 'Il n\'y a apparement pas de suspect. :innocent:'
+                                 }
                          }
                      }
                     )()

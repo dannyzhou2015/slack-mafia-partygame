@@ -45,7 +45,9 @@ const str = new DayCycleStrings(LANG)
                         this.makeAnnouncements()
                         .then(() => this.game.showGraveyard(chan))
                         .then(() => this.game.resetCleaned())
+                        .then(() => sleep(1))
                         .then(() => this.game.showAlive(chan))
+                        .then(() => sleep(2))
                         .then(() => {
                             const hasWon = this.game.checkVictory()
                                 if (hasWon) {
@@ -93,9 +95,11 @@ const str = new DayCycleStrings(LANG)
         endDebatePoll(poll) {
             const chan = this.game.getTownRoom()
                 const resPoll = poll.getMaxVoted()
-                if (resPoll.maxVote > 0) {
+                // no lynch if multiple max votes
+                if (resPoll.maxVote > 0 && resPoll.targets.length == 1) {
                     // if multiple suspects, take randomly
-                    let suspect = _.sample(resPoll.targets)
+                    //let suspect = _.sample(]resPoll.targets)
+                    let suspect = resPoll.targets[0]
                         suspect = _.find(this.game.players, {
                             name: suspect
                         })
@@ -110,6 +114,11 @@ const str = new DayCycleStrings(LANG)
                                         this.startTrialPoll(suspect.id)
                                 })
                         })
+                } else if (resPoll.targets.length > 1){
+                    const text = str.endDebate('noVote-even')
+                        this.game.postMessage(chan, text)
+                        .then(() => sleep(5))
+                        .then(() => this.end())
                 } else {
                     const text = str.endDebate('noVote')
                         this.game.postMessage(chan, text)

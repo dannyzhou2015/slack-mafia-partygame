@@ -51,7 +51,7 @@ const str = new PollStrings(LANG)
                         // removing the bullet points with slice
                         this.pollResults[(p.message.text)
                             .slice(2)] = []
-                            this.game.slackApi.api('reactions.get', {
+                            this.game.slackApiUser.api('reactions.get', {
                                 channel: p.channel,
                                 timestamp: p.ts
                             }, (err, response) => {

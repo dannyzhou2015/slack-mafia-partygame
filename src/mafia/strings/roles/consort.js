@@ -23,7 +23,7 @@ export default class ConsortStrings extends MafiaGameStrings {
                                  }
                              case 'summary':
                                  return {
-                                     en: 'A dancer working for organized crime.',
+                                     en: 'A consort working for organized crime.',
                                      fr: 'Une danceuse travaillant pour la mafia.'
                                  }
                              case 'goal':

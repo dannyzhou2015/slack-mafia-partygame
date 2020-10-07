@@ -1,4 +1,16 @@
 const setups = {
+    1: [
+        {
+            id: 'default',
+            roles: ['Mafioso']
+        }
+    ],
+    2: [
+        {
+            id: 'default',
+            roles: ['Veteran', "Mafioso"]
+        }
+    ],
     4: [
     {
         id: 'default',

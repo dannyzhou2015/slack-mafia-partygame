@@ -92,7 +92,7 @@ export default class GameStrings extends MafiaGameStrings {
                          switch (category) {
                              case 'newMember':
                                  return {
-                                     en: ':loudspeaker: The Mafia has a new member! Welcome to <@' + args.id + '>. His role: *' + args.role.desc.name + '*',
+                                     en: ':loudspeaker: The Mafia has a new member! Welcome to <@' + args.id + '>. His/Her role: *' + args.role.desc.name + '*',
                                      fr: ':loudspeaker: La Mafia accueille un nouveau membre. Bienvenue à <@' + args.id + '>. Son rôle: *' + args.role.desc.name + '*'
                                  }
                              case 'updateRole':
@@ -149,7 +149,7 @@ export default class GameStrings extends MafiaGameStrings {
                                  }
                              case 'info':
                                  return {
-                                     en: ':loudspeaker: :skull: You have been killed. You cannot participated anymore. Please do not send direct messages to other players who are still alive',
+                                     en: ':loudspeaker: :skull: You have been killed. You cannot participate in the ongoing game anymore. Please do not send direct messages to other players who are still alive.',
                                      fr: ':loudspeaker: :skull: Vous avez été éliminé. Vous ne pouvez plus participer au jeu. Veuillez à ne pas communiquer avec les autres joueurs restants dans la partie.'
                                  }
                          }
@@ -262,13 +262,18 @@ export default class GameStrings extends MafiaGameStrings {
                                  }
                              case 'Jester':
                                  return {
-                                     en: 'The jester has won! (well not really)',
+                                     en: 'The jester has won! :clown_face:',
                                      fr: 'Le bouffon a gagné! (enfin pas vraiment)'
                                  }
                              case 'Draw':
                                  return {
                                      en: 'It\'s a draw. Everybody is dead!',
                                      fr: 'C\'est une égalité. Personne n\'a survécu!'
+                                 }
+                             case 'DrawEven':
+                                 return {
+                                     en: 'It\'s a draw. Two people are tied one-to-one!',
+                                     fr: 'C\'est une égalité.'
                                  }
 
                              case 'end':

@@ -4,7 +4,7 @@ const gameSettings = {
         'mafia-hideout': 'mafia-room'
     },
     CHANNELS: {
-        'the-town': 'town-room'
+        'town-center': 'town-room'
     },
 
     SETUP: 'default',

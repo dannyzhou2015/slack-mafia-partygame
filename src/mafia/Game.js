@@ -17,9 +17,10 @@ const str = new GameStrings(LANG)
     const misc = miscStrings[LANG]
 
     export default class Game {
-        constructor(gameEmitter, slackApi, players, channels) {
+        constructor(gameEmitter, slackApi, slackApiUser, players, channels) {
             this.gameEmitter = gameEmitter
                 this.slackApi = slackApi
+                this.slackApiUser = slackApiUser
                 this.players = players
                 this.channels = channels
                 this.rolesDistribution = this.initRoles()
@@ -30,6 +31,7 @@ const str = new GameStrings(LANG)
                     nightCount: 0,
                     dayCount: 0
                 }
+                this.gameDone = false;
         }
 
         // Initialisation of the game: Give a role to each player
@@ -41,7 +43,9 @@ const str = new GameStrings(LANG)
         // dm each player for a brief description of their role and their objectives
         init() {
             // give a role to each player
+            console.log("db0")
             this.setPlayers()
+            console.log("db00")
                 this.resetImmunity()
                 // display game distribution
                 const chan = this.getTownRoom()
@@ -54,13 +58,15 @@ const str = new GameStrings(LANG)
                 this.postMessage(chan, text)
                 .then(() => {
                     text = nTown + ' Town vs ' + nMafia + ' Mafia vs ' + nNeutral + ' Neutral'
-                        this.slackApi.api('channels.setTopic', { channel: chan, topic: text })
+                        this.slackApiUser.api('conversations.setTopic', { channel: chan, topic: text })
                 })
+            console.log("db1")
             // invite mafia players in the mafia room
             _.forEach(this.getPlayers({ filters: { affiliation: 'Mafia' } }), player => {
                 this.newMafiaRecruit(player)
             })
             // listen to new message for mute
+            console.log("db2")
             this.gameEmitter.on('message', data => this.mutePlayers(data))
                 // listen to commands
                 this.gameEmitter.on('message', data => this.commands(data))
@@ -79,12 +85,14 @@ const str = new GameStrings(LANG)
                             newCycle.start()
                     }
                 })
+                console.log("db3")
             // dm each player for their role
             _.forEach(this.players, player => {
                 const chan = player.id
                     const text = str.init('role', player.role.desc)
                     this.postMessage(chan, text)
             })
+            console.log("db4")
 
         }
 
@@ -119,7 +127,7 @@ const str = new GameStrings(LANG)
             const chan = this.getTownRoom()
                 if (_.last(this.gameState.cycles) instanceof NightCycle) {
                     if (data.channel == chan) {
-                        this.slackApi.api('chat.delete', {
+                        this.slackApiUser.api('chat.delete', {
                             channel: chan,
                             ts: data.ts
                         }, () => {
@@ -134,7 +142,7 @@ const str = new GameStrings(LANG)
             if (_.find(this.getPlayers({ alive: false }), {
                 id: data.user
             })) {
-                this.slackApi.api('chat.delete', {
+                this.slackApiUser.api('chat.delete', {
                     channel: data.channel,
                     ts: data.ts
                 }, () => {
@@ -150,7 +158,7 @@ const str = new GameStrings(LANG)
                     if (_.find(this.gameState.mutedPlayers, {
                         id: data.user
                     })) {
-                        this.slackApi.api('chat.delete', {
+                        this.slackApiUser.api('chat.delete', {
                             channel: data.channel,
                             ts: data.ts
                         }, () => {
@@ -164,7 +172,7 @@ const str = new GameStrings(LANG)
         commands(data) {
             const player = _.find(this.players, { id: data.user })
                 const text = _.trim(data.text)
-                // last will commands
+                // last words commands
                 if (_.startsWith(text, '!lw')) {
                     const splits = _.split(text, '!lw ')
                         if (splits.length > 1) {
@@ -197,11 +205,14 @@ const str = new GameStrings(LANG)
 
         // Generate rolesDistribution following setup
         initRoles() {
+            console.log("debug1")
             const roles = []
                 const n = this.players.length
-                if (n < 4) {
+                if (n < 1) {
+                    console.log("must have more than 0 players!!")
                     this.end()
                 }
+                console.log("debug2")
             let setup
                 if (SETUP == 'default') {
                     setup = _.find(setups[n], { id: 'default' })
@@ -215,6 +226,7 @@ const str = new GameStrings(LANG)
                 }
 
             if (!setup) {
+                console.log("not setup. ending")
                 this.postMessage(this.getTownRoom(), str.noSetup(n))
                     .then(() => this.end())
             }
@@ -358,6 +370,8 @@ const str = new GameStrings(LANG)
         // check for victory
         checkVictory() {
             let winners = false
+                const nAll = this.getPlayers()
+                .length
                 const nMafia = this.getPlayers({ filters: { affiliation: 'Mafia' } })
                 .length
                 const nTown = this.getPlayers({ filters: { affiliation: 'Town' } })
@@ -365,8 +379,11 @@ const str = new GameStrings(LANG)
                 const nNeutral = this.getPlayers({ filters: { affiliation: 'Neutral' } })
                 .length
                 const neutralKilling = this.getPlayers({ filters: { category: 'Neutral Killing' } })
+                
 
-                if (nMafia == 0 && nNeutral == 0 && nTown == 0) {
+                if (nAll == 2 && (nMafia == 1 || nTown == 1 || nNeutral == 1 || neutralKilling == 1)) {
+                    winners = 'DrawEven'
+                } else if (nMafia == 0 && nNeutral == 0 && nTown == 0) {
                     winners = 'Draw'
                 } else if (nMafia == 0 && neutralKilling.length == 0 && nTown > 0) {
                     winners = 'Town'
@@ -405,7 +422,7 @@ const str = new GameStrings(LANG)
                 .then(() => this.downloadLeaderboard())
                 .then(() => this.scorer(winners))
                 .then(() => this.uploadLeaderboard())
-                .then(() => this.end())
+                .then(() => {this.gameDone = true})
         }
 
         scorer(winners) {
@@ -458,7 +475,7 @@ const str = new GameStrings(LANG)
 
         downloadLeaderboard() {
             return new Promise((resolve, reject) => {
-                this.slackApi.api('files.list', { channel: this.slackApi.botIM }, (err, response) => {
+                this.slackApiUser.api('files.list', { channel: this.slackApi.botIM }, (err, response) => {
                     if (response.ok) {
                         let leaderboardFile = _.find(response.files, { name: 'leaderboard.db' })
                             if (leaderboardFile) {
@@ -472,7 +489,7 @@ const str = new GameStrings(LANG)
                                     }
                                 request.get(options)
                                     .pipe(fs.createWriteStream('./leaderboard.db'))
-                                    .on('finish', () => this.slackApi.api('files.delete', { file: leaderboardFileId },
+                                    .on('finish', () => this.slackApiUser.api('files.delete', { file: leaderboardFileId },
                                                 () => resolve(true)))
                             } else {
                                 resolve(true)
@@ -492,7 +509,7 @@ const str = new GameStrings(LANG)
                     title: 'leaderboard.db',
                     channels: this.slackApi.botIM
                 }
-                this.slackApi.api('files.upload', data, () => resolve(true))
+                this.slackApiUser.api('files.upload', data, () => resolve(true))
             })
         }
 
@@ -536,10 +553,13 @@ const str = new GameStrings(LANG)
         // Invite player to the mafia channel and alert the channeI
         newMafiaRecruit(player) {
             const chan = this.getMafiaRoom()
-                this.slackApi.api('groups.invite', {
+                this.slackApiUser.api('conversations.invite', {
                     channel: chan,
-                    user: player.id
-                }, () => {
+                    users: player.id
+                }, (e, msg) => {
+                    console.log("recruiting mafioso...")
+                    //console.log(player)
+                    //console.log(msg)
                     const text = str.mafia('newMember', player)
                         this.postMessage(chan, text)
                 })
@@ -568,7 +588,7 @@ const str = new GameStrings(LANG)
 
         // Set the player (victim) isAlive attribute to false then post a message to
         // both the town channel and the victim's direct message
-        // Also display his last will
+        // Also display his last words
         // If the player was mafia, kick him from mafia channel
         newVictim(victim, killTypes) {
             return new Promise((resolve, reject) => {
@@ -593,7 +613,7 @@ const str = new GameStrings(LANG)
                 this.postMessage(this.getTownRoom(), text)
                     .then(() => victim.showLastWill(this.getTownRoom()))
                     .then(() => this.postMessage(victim.id, str.victim('info')))
-                    .then(() => this.slackApi.api('groups.kick', { channel: this.getMafiaRoom(), user: victim.id },
+                    .then(() => this.slackApiUser.api('conversations.kick', { channel: this.getMafiaRoom(), user: victim.id },
                                 () => resolve(true)))
             })
         }
@@ -602,12 +622,23 @@ const str = new GameStrings(LANG)
         // Post message (support promises)
         postMessage(channel, text, as_user = true, username = '') {
             return new Promise((resolve, reject) => {
-                this.slackApi.api('chat.postMessage', {
+                this.slackApiUser.api('chat.postMessage', {
                     channel: channel,
                     text: text,
                     as_user: as_user,
                     username: username
-                }, (err, response) => resolve({ err: err, response: response }))
+                }, (err, response) => {
+                    console.log("posting message")
+                    console.log({
+                        channel: channel,
+                        text: text,
+                        as_user: as_user,
+                        username: username
+                    })
+                    console.log(err)
+                    console.log(response)
+                    resolve({ err: err, response: response })   
+                })
             })
         }
 
