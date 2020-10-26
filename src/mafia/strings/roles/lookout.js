@@ -33,7 +33,7 @@ export default class LookoutStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'See everyone who visits his target each night.',
+                                     en: 'Track someone and see who visited him/her this night.',
                                      fr: 'Surveille les visites qu\'une personne reçoit chaque nuit.'
                                  }
                          }

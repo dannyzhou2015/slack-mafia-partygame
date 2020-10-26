@@ -7,6 +7,13 @@ import { EventEmitter } from 'events'
 import async from 'async'
 import { SSL_OP_NO_TICKET } from 'constants'
 
+process.on('uncaughtException', (err, origin) => {
+    fs.writeSync(
+      process.stderr.fd,
+      `Caught exception: ${err}\n` +
+      `Exception origin: ${origin}`
+    );
+  });
 
 export default class MafiaGameMaster {
     constructor() {
@@ -17,8 +24,10 @@ export default class MafiaGameMaster {
                 name: process.env.MAFIA_API_NAME,
                 username: process.env.MAFIA_API_USERNAME
             })
+            this.gameNumber = 1;
         this.botStartListener = () => {
             this.slackApi = new Slack(process.env.MAFIA_API_TOKEN)
+            this.slackApiUser2 = new Slack(process.env.MAFIA_API_TOKEN_USER_2)
             this.slackApiUser = new Slack(process.env.MAFIA_API_TOKEN_USER)
                 console.log("123123123");
                 // console.log(this.bot);
@@ -79,6 +88,8 @@ export default class MafiaGameMaster {
                     }
                 })
         } else if (this.mafiaPartyGame.gameDone()) {
+            //this.initGameGroups()
+            //this.gameNumber++;
             this.mafiaPartyGame.unListen();
             this.prepareMafiaPartyGame()
                 .then((chans) => {
@@ -209,12 +220,41 @@ export default class MafiaGameMaster {
             const chans = []
                 async.forEach(_.keys(GROUPS), (group, callback) => {
                     //console.log(groups)
+                    // group = group + '-' + this.gameNumber.toString().padStart(3, '0')
+                    // console.log(group)
                     let existingGroup = _.find(groups, { name: group })
                         if (existingGroup) {
                             console.log("kicking from existing group..")
                             chans.push({ id: existingGroup.id, name: existingGroup.name, category: GROUPS[group] })
                                 this.channelKick(existingGroup)
                                 .then(() => callback())
+
+                            // console.log("deleteting existing group..")
+                            // this.slackApiUser.api('conversations.delete', { channel: group }, (err, response) => {
+                            //     if (response.ok) {
+                            //         console.log("group deleted!")
+                            //         console.log(response)
+                            //         chans.push({ id: response.channel.id, name: response.channel.name, category: GROUPS[group] })
+                            //             callback()
+                            //             this.slackApiUser.api('conversations.create', { name: group, is_private: true }, (err, response) => {
+                            //                 if (response.ok) {
+                            //                     console.log("group created!")
+                            //                     console.log(response)
+                            //                     chans.push({ id: response.channel.id, name: response.channel.name, category: GROUPS[group] })
+                            //                         callback()
+                            //                 } else {
+                            //                     console.log('Creating group ' + group + ' failed:')
+                            //                         console.log(response)
+                            //                 }
+                            //             })
+                            //     } else {
+                            //         console.log('deleting group ' + group + ' failed:')
+                            //             console.log(response)
+                            //     }
+                            // })
+                            // // chans.push({ id: existingGroup.id, name: existingGroup.name, category: GROUPS[group] })
+                            // //     this.channelKick(existingGroup)
+                            // //     .then(() => callback())
                         } else {
                             console.log("No existing group found!")
                             //process.exit()

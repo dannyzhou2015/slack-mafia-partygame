@@ -23,7 +23,7 @@ export default class BodyguardStrings extends MafiaGameStrings {
                                  }
                              case 'summary':
                                  return {
-                                     en: 'A war veteran who secretly makes a living by selling protection.',
+                                     en: 'A war veteran who secretly makes a living by offering protection.',
                                      fr: 'Un ancien soldat reconvertit dans la protection rapprochée.'
                                  }
                              case 'goal':
@@ -33,7 +33,7 @@ export default class BodyguardStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Guard one player each night. If someone attacks a guarded player, both the attacker and the Bodyguard die instead of the guarded player.',
+                                     en: 'Guard someone once each night. If he/she is attacked, you will prevent it and shoot the attacker.',
                                      fr: 'Protège une personne chaque nuit. Si cette dernière est attaquée, l\'assaillant et le garde du corps meurt à sa place.'
                                  }
                          }

@@ -33,7 +33,7 @@ export default class VeteranStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'May go on alert during the night. If he goes on alert, will automatically kills any player who targets him that night. (max 2)',
+                                     en: 'May go on alert during the night. If you go on alert, will automatically shoot any player who targets you this night. (max 2)',
                                      fr: 'Peut rester sur le qui-vive la nuit et ainsi tuer toute personne qui le visite. (max 2)'
                                  }
                          }

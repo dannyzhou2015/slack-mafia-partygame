@@ -52,10 +52,10 @@ const str = new TrackerStrings(LANG)
                             text = str.resolveNightAbility('trackingResult')
                             if (visits.length > 0) {
                                 _.forEach(visits, visit => {
-                                    text += str.resolveNightAbility('hasVisited', { target: target.name, visit: visit.target })
+                                    text += str.resolveNightAbility('hasVisited', { target: '<@'+target.id+'>', visit: visit.target })
                                 })
                             } else {
-                                text += str.resolveNightAbility('hasNotVisited', target.name)
+                                text += str.resolveNightAbility('hasNotVisited', '<@'+target.id+'>')
                             }
                     } else {
                         text = str.resolveNightAbility('noInvestigation')

@@ -23,7 +23,7 @@ export default class VigilanteStrings extends MafiaGameStrings {
                                  }
                              case 'summary':
                                  return {
-                                     en: 'A dirty cop who will ignore the law and order to enact justice.',
+                                     en: 'A rogue cop who will ignore the law and order to enact justice.',
                                      fr: 'Un policier qui désire faire justice par lui même.'
                                  }
                              case 'goal':
@@ -33,7 +33,7 @@ export default class VigilanteStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Kill one target at night. (max 2)',
+                                     en: 'Shoot someone at night. (max 2)',
                                      fr: 'Tue une personne chaque nuit. (max 2)'
                                  }
                          }
@@ -44,7 +44,7 @@ export default class VigilanteStrings extends MafiaGameStrings {
 
     activateNightAbility() {
         return (super.toString({
-            en: ':oncoming_police_car: Kill somebody?',
+            en: ':oncoming_police_car: Shoot someone suspicious?',
             fr: ':oncoming_police_car: Qui voulez vous abattre?'
         }))
     }

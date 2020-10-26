@@ -33,8 +33,8 @@ export default class NightCycleStrings extends MafiaGameStrings {
                          switch (category) {
                              case 'kill':
                                  return {
-                                     en: '*' + args.killer + '* is going to kill *' + args.target + '*',
-                                     fr: '*' + args.killer + '* va assassiner *' + args.target + '*'
+                                     en: '*<@' + args.killer + '>* is going to kill *<@' + args.target + '>*',
+                                     fr: '*<@' + args.killer + '>* va assassiner *<@' + args.target + '>*'
                                  }
                              case 'noKill':
                                  return {

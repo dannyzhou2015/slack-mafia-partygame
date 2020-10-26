@@ -33,7 +33,7 @@ export default class EscortStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Block someone\'s role at night, canceling their night abilities.',
+                                     en: 'Block someone\'s role at night, canceling his/her night abilities.',
                                      fr: 'Bloque une personne la nuit, l\'empêchant d\'utiliser sa compétence.'
                                  }
                          }

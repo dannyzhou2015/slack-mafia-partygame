@@ -56,7 +56,7 @@ const str = new CopStrings(LANG)
                             } else {
                                 investigationResult = target.role.params.investigationCop
                             }
-                        text = str.resolveNightAbility('investigationResult', { target: target.name, investigationResult: investigationResult })
+                        text = str.resolveNightAbility('investigationResult', { target: '<@'+target.id+'>', investigationResult: investigationResult })
                     } else {
                         text = str.resolveNightAbility('noInvestigation')
                     }

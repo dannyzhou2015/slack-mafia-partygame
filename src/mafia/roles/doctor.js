@@ -48,7 +48,7 @@ const str = new DoctorStrings(LANG)
                     let text
                     if (resPoll.maxVote > 0) {
                         const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                            text = str.resolveNightAbility('protection', target.name)
+                            text = str.resolveNightAbility('protection', '<@'+target.id+'>')
                             player.game.gameEmitter.emit('nightEvent', {
                                 type: 'doctor',
                                 player: player.name,

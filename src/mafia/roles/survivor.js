@@ -11,7 +11,7 @@ const str = new SurvivorStrings(LANG)
     let survivor = {
         name: 'Survivor',
         affiliation: 'Neutral',
-        category: 'fuckekrkjejaklfdjasl fdaslkfjasdkl fja dslNeutral Benign',
+        category: 'Neutral Benign', // caveat solved
         desc: {
             name: str.desc('name'),
             particle: str.desc('particle'),

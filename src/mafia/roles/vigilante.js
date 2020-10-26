@@ -52,7 +52,7 @@ const str = new VigilanteStrings(LANG)
                         let text
                         if (resPoll.maxVote > 0) {
                             const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                                text = str.resolveNightAbility('kill', target.name)
+                                text = str.resolveNightAbility('kill', '<@'+target.id+'>')
                                 player.game.gameEmitter.emit('nightEvent', {
                                     type: 'kill',
                                     player: player.name,

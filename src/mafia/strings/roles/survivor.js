@@ -33,7 +33,7 @@ export default class SurvivorStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Use a bulletproof vest, protecting the Survivor from being killed at night.',
+                                     en: 'Put on a bulletproof vest, protecting yourself from being shot at night.',
                                      fr: 'Utilise un gilet pare balles qui protège des meurtres.'
                                  }
                          }
@@ -44,8 +44,8 @@ export default class SurvivorStrings extends MafiaGameStrings {
 
     activateNightAbility() {
         return (super.toString({
-            en: ':gun: Use your bulletproof vest?',
-            fr: ':gun: Enfiler votre gilet pare balles?'
+            en: ':shield: Use your bulletproof vest?',
+            fr: ':shield: Enfiler votre gilet pare balles?'
         }))
     }
 

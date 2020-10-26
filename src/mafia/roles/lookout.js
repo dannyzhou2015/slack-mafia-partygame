@@ -11,7 +11,7 @@ const str = new LookoutStrings(LANG)
     let lookout = {
         name: 'Lookout',
         affiliation: 'Town',
-        category: 'jkfdsTown Supportive',
+        category: 'Town Supportive', // caveat solved
         desc: {
             name: str.desc('name'),
             particle: str.desc('particle'),
@@ -45,20 +45,32 @@ const str = new LookoutStrings(LANG)
         resolveNightAbility(player, events) {
             return new Promise((resolve, reject) => {
                 const resPoll = player.poll.getMaxVoted()
+                    console.log("lookout 1")
                     let text = ''
                     if (resPoll.maxVote > 0) {
                         const target = _.find(player.game.players, { name: resPoll.targets[0] })
+                        console.log("lookout 2")
+                        console.log(target)
                             const visits = _.filter(events, e => { return (e.type == 'visit' && e.target == target.name && e.player != player.name) })
-                            text += str.resolveNightAbility('investigationResult') + str.resolveNightAbility('hasBeenVisited', target.name)
+                            console.log("lookout 3")
+                            console.log(visits)
+                            text += str.resolveNightAbility('trackingResult') + str.resolveNightAbility('hasBeenVisited', '<@'+target.id+'>')
                             if (visits.length > 0) {
                                 _.forEach(visits, visit => {
-                                    text += '*' + visit.player + '*, '
+                                    let visitPlayer = _.find(player.game.players, { name: visit.player })
+                                    if (visitPlayer) {
+                                        text += '*' + visitPlayer.getDisplayedName() + '*, '
+                                    }
+                                    
                                 })
+                                console.log("lookout 4")
                             } else {
                                 text += str.resolveNightAbility('noVisit')
+                                console.log("lookout 5")
                             }
                     } else {
                         text = str.resolveNightAbility('noInvestigation')
+                        console.log("lookout 6")
                     }
                 player.game.postMessage(player.id, text)
                     .then(() => resolve(true))

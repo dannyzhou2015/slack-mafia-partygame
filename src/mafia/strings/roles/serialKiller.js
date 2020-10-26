@@ -33,7 +33,7 @@ export default class SerialKillerStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Kill one target at night.',
+                                     en: 'Kill someone at night.',
                                      fr: 'Tue une personne la nuit.'
                                  }
                          }

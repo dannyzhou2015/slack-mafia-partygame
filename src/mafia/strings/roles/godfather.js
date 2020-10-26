@@ -23,7 +23,7 @@ export default class GodfatherStrings extends MafiaGameStrings {
                                  }
                              case 'summary':
                                  return {
-                                     en: 'The capofamiglia of the town\'s organized mafia syndicate. You appear as innoncent in front of investigative roles.',
+                                     en: 'The capofamiglia of the town\'s organized mafia syndicate. You appear as innocent in front of investigative actions.',
                                      fr: 'Le capofamiglia du réseau mafia de la ville. Votre discrétion et votre influence vous rend innocent aux yeux des enquêteurs.'
                                  }
                              case 'goal':
@@ -33,8 +33,8 @@ export default class GodfatherStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Send your mafiosi to kill off citizens.',
-                                     fr: 'Envoyez vos hommes de main éliminer les citoyens'
+                                     en: 'Shoot someone, as voted by the Mafia.',
+                                     fr: 'Envoyez vos hommes de main éliminer les citoyens.'
                                  }
                          }
                      }

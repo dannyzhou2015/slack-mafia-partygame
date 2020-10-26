@@ -57,7 +57,7 @@ const str = new ConsigliereStrings(LANG)
                                 investigationResult = target.getCrimes()
                             }
                         investigationResult = _.join(investigationResult, ', ')
-                            text = str.resolveNightAbility('investigationResult', { name: target.name, result: investigationResult })
+                            text = str.resolveNightAbility('investigationResult', { name: '<@'+target.id+'>', result: investigationResult })
                     } else {
                         text = str.resolveNightAbility('noInvestigation')
                     }

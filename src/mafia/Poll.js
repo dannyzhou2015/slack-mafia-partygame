@@ -17,13 +17,25 @@ const str = new PollStrings(LANG)
             this.validatedPollResults = {}
             this.showResult = showResult
                 this.ignoreId = ignoreId
+            this.messageMap = {}
+            this.isPeoplePoll = false
         }
 
         start() {
             this.game.postMessage(this.chan, this.text)
                 .then(() => {
                     async.forEachSeries(this.choices, (choice, callback) => {
-                        this.game.postMessage(this.chan, '• ' + choice.name)
+                        let postedMsg = '';
+                        let msg = '• ' + choice.name;
+                        if (choice.id) {
+                            this.isPeoplePoll = true
+                            // make the posted msg contain displayed name, rather than the real name
+                            postedMsg = '• <@' + choice.id + '>'
+                        } else {
+                            postedMsg = msg
+                        }
+                        this.messageMap[postedMsg] = msg
+                        this.game.postMessage(this.chan, postedMsg)
                             .then((response) => {
                                 this.poll.push(response.response)
                                     callback()
@@ -49,15 +61,13 @@ const str = new PollStrings(LANG)
                 if (this.poll.length > 0) {
                     async.forEachOf(this.poll, (p, k, callback) => {
                         // removing the bullet points with slice
-                        this.pollResults[(p.message.text)
-                            .slice(2)] = []
+                        this.pollResults[this.messageMap[p.message.text].slice(2)] = []
                             this.game.slackApiUser.api('reactions.get', {
                                 channel: p.channel,
                                 timestamp: p.ts
                             }, (err, response) => {
                                 _.forEach(response.message.reactions, r => {
-                                    this.pollResults[(p.message.text)
-                                        .slice(2)].push(_.uniq(r.users))
+                                    this.pollResults[this.messageMap[p.message.text].slice(2)].push(_.uniq(r.users))
                                 })
                                 callback()
                             })
@@ -70,6 +80,8 @@ const str = new PollStrings(LANG)
         validate() {
             // this is the validated poll
             let resPoll = {}
+            console.log("poll results")
+            console.log(this.pollResults)
             // for each choices, flatten the arrays of voters
             _.forEach(this.pollResults, (voters, choice) => {
                 this.pollResults[choice] = _.flattenDeep(voters)
@@ -123,10 +135,15 @@ const str = new PollStrings(LANG)
             let text = str.ended()
                 _.forOwn(this.validatedPollResults, (value, key) => {
                     if (value.length > 0) {
-                        text += '*' + key + '* :arrow_right: '
+                        if (this.isPeoplePoll) {
+                            let player = _.find(this.game.getPlayers(), { name: key })
+                            if (player) {
+                                key = player.getDisplayedName()
+                            }
+                        }
+                        text += '*' + key + '* :arrow_left: '
                             _.forEach(value, v => {
-                                text += _.find(this.game.players, { id: v })
-                                    .name + ' '
+                                text += '<@'+v+ '> '
                             })
                         text += '\n'
                     }

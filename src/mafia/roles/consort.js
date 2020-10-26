@@ -51,12 +51,12 @@ const str = new ConsortStrings(LANG)
                                 case 'Consort':
                                     break
                                 case 'SerialKiller':
-                                        player.game.gameEmitter.emit('nightEvent', {
-                                            type: 'kill',
-                                            player: target.name,
-                                            target: player.name,
-                                            killType: 'serialkiller'
-                                        })
+                                        // player.game.gameEmitter.emit('nightEvent', {
+                                        //     type: 'kill',
+                                        //     player: target.name,
+                                        //     target: player.name,
+                                        //     killType: 'serialkiller'
+                                        // })
                                         target.roleBlocked = true
                                             target.cancelVisit()
                                             player.addCrime(misc.crimes.disturbingThePeace)
@@ -65,7 +65,7 @@ const str = new ConsortStrings(LANG)
                                                 target.cancelVisit()
                                                 player.addCrime(misc.crimes.disturbingThePeace)
                             }
-                        text = str.resolveNightAbility('block', target.name)
+                        text = str.resolveNightAbility('block', '<@'+target.id+'>')
                     } else {
                         text = str.resolveNightAbility('noBlock')
                     }

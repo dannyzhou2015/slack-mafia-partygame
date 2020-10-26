@@ -126,8 +126,14 @@ const str = new NightCycleStrings(LANG)
                     async.forEach(this.game.getPlayers(), (player, callback) => {
                         if (_.indexOf(bodyguards, player.role.name) > -1) {
                             player.resolveNightAbility(this.events)
-                                .then(events => {
-                                    if (events) { this.events = events }
+                                .then((events) => {
+                                    console.log("resolveBodyguards")
+                                    console.log(events)
+                                    if (Array.isArray(events)) {
+                                        console.log("bodyguard altering events")
+                                        console.log(events) 
+                                        this.events = events 
+                                    }
                                     callback()
                                 })
                         } else {
@@ -220,7 +226,12 @@ const str = new NightCycleStrings(LANG)
                 const resPoll = poll.getMaxVoted()
                 let text
                 if (resPoll.maxVote > 0) {
-                    const killers = this.game.getPlayers({ filters: { affiliation: 'Mafia', category: 'Mafia Killing' } })
+                    // choose a gunman
+                    // if mafioso exists, godfather won't act as gunman
+                    let killers = this.game.getPlayers({ filters: { affiliation: 'Mafia', category: 'Mafia Killing', name: 'Mafioso' } })
+                    if (killers.length == 0) {
+                        killers = this.game.getPlayers({ filters: { affiliation: 'Mafia', category: 'Mafia Killing' } })
+                    }
                         if (killers.length == 0) {
                             text = str.endMafia('noKiller')
                         } else {
@@ -233,7 +244,7 @@ const str = new NightCycleStrings(LANG)
                                     player: killer.name,
                                     target: target.name
                                 })
-                            text = str.endMafia('kill', { killer: killer.name, target: target.name })
+                            text = str.endMafia('kill', { killer: killer.id, target: target.id })
                         }
                 } else {
                     text = str.endMafia('noKill')

@@ -5,10 +5,17 @@ const setups = {
             roles: ['Mafioso']
         }
     ],
+    // const arrayRoles = [arsonist, bodyguard, citizen, cop, consigliere, consort,
+    //     doctor, escort, framer, godfather, investigator, janitor, jester, lookout,
+    //     mafioso, serialKiller, survivor, tracker, veteran, vigilante]
     2: [
         {
             id: 'default',
-            roles: ['Veteran', "Mafioso"]
+            roles: ["Janitor", 'Lookout'],
+            // configurations: {
+            //     'Neutral Benign': 1,
+            //     'Mafia Support': 1
+            //}
         }
     ],
     4: [
@@ -40,7 +47,7 @@ const setups = {
         id: 'default',
         roles: ['Mafioso', 'Mafioso', 'Doctor', 'Citizen', 'Citizen', 'Citizen'],
         configurations: {
-            'Town Investigative' : 1
+            'Town' : 1
         }
     }
     ],
@@ -49,8 +56,8 @@ const setups = {
         id: 'default',
         roles: ['Mafioso', 'Godfather', 'Doctor', 'Citizen', 'Citizen', 'Citizen'],
         configurations: {
-            'Town Investigative' : 1,
-            'Neutral Random' : 1
+            'Town' : 1,
+            'Neutral' : 1
         }
     }
     ],
@@ -60,10 +67,10 @@ const setups = {
         roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
         configurations: {
             'Town Protective': 1,
-            'Town Investigative': 1,
-            'Town Random': 1,
+            'Town': 1,
+            'Town': 1,
             'Mafia Support': 1,
-            'Neutral Random': 1
+            'Neutral': 1
         }
     }
     ],
@@ -73,10 +80,10 @@ const setups = {
         roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
         configurations: {
             'Town Protective': 1,
-            'Town Investigative': 1,
-            'Town Random': 1,
+            'Town': 1,
+            'Town': 1,
             'Mafia Support': 1,
-            'Neutral Random': 1,
+            'Neutral': 1,
             'Neutral Killing': 1
         }
     }

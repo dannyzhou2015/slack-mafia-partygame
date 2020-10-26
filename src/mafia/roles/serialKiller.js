@@ -22,7 +22,7 @@ const str = new SerialKillerStrings(LANG)
         params: {
             isUnique: false,
             investigationCop: misc.investigation.serialKiller,
-            hasNightImmunity: true
+            hasNightImmunity: false
         },
 
         activatePreNightAbility() {
@@ -47,7 +47,7 @@ const str = new SerialKillerStrings(LANG)
                     let text
                     if (resPoll.maxVote > 0) {
                         const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                            text = str.resolveNightAbility('kill', target.name)
+                            text = str.resolveNightAbility('kill', '<@'+target.id+'>')
                             player.game.gameEmitter.emit('nightEvent', {
                                 type: 'kill',
                                 player: player.name,

@@ -33,7 +33,7 @@ export default class ConsigliereStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Check one player each night for that player\'s criminal record.',
+                                     en: 'Check person each night for his/her criminal record.',
                                      fr: 'Epluche le casier judiciaire d\'un joueur chaque nuit.'
                                  }
                          }

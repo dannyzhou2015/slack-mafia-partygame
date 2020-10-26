@@ -33,7 +33,7 @@ export default class TrackerStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Track one person\'s activity each night.',
+                                     en: 'Track someone\'s activity each night.',
                                      fr: 'Suit un joueur chaque nuit pour découvrir son activité.'
                                  }
                          }

@@ -11,7 +11,7 @@ const str = new InvestigatorStrings(LANG)
     let investigator = {
         name: 'Investigator',
         affiliation: 'Town',
-        category: 'fjdkslajfdsklaTown Supportive',
+        category: 'Town Supportive', //caveat solved
         desc: {
             name: str.desc('name'),
             particle: str.desc('particle'),
@@ -57,7 +57,7 @@ const str = new InvestigatorStrings(LANG)
                                 investigationResult = target.getCrimes()
                             }
                         investigationResult = _.join(investigationResult, ', ')
-                            text = str.resolveNightAbility('investigationResult', { name: target.name, result: investigationResult })
+                            text = str.resolveNightAbility('investigationResult', { name: '<@'+target.id+'>', result: investigationResult })
                     } else {
                         text = str.resolveNightAbility('noInvestigation')
                     }

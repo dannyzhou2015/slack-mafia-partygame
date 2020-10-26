@@ -47,8 +47,8 @@ export default class DayCycleStrings extends MafiaGameStrings {
                          switch (category) {
                              case 'trial':
                                  return {
-                                     en: '*<@' + args.name + '>*, the town has decided to put you to trial. :angry: \nYou are now on trial for conspiracy against the town. You have ' + args.time + ' seconds to prove your innocence. :hourglass_flowing_sand:',
-                                     fr: '*<@' + args.name + '>*, la ville vous a désigné comme principal suspect. :angry: \n Vous êtes maintenant jugé pour complot contre la ville. Vous avez ' + args.time + ' secondes pour prouver votre innocence. :hourglass_flowing_sand:'
+                                     en: '*<@' + args.id + '>*, the town has decided to put you to trial! :fire: \nYou are now on trial for conspiracy against the town. You have ' + args.time + ' seconds to prove your innocence. :hourglass_flowing_sand:',
+                                     fr: '*<@' + args.id + '>*, la ville vous a désigné comme principal suspect. :angry: \n Vous êtes maintenant jugé pour complot contre la ville. Vous avez ' + args.time + ' secondes pour prouver votre innocence. :hourglass_flowing_sand:'
                                  }
                              case 'noVote':
                                  return {
@@ -57,7 +57,7 @@ export default class DayCycleStrings extends MafiaGameStrings {
                                  }
                              case 'noVote-even':
                                   return {
-                                     en: 'The votes on each side are dead even! Nobody get lynched today. :joy:',
+                                     en: 'The votes on each side are dead even! Nobody get lynched today. :neutral_face:',
                                      fr: 'Il n\'y a apparement pas de suspect. :innocent:'
                                  }
                          }
@@ -95,8 +95,8 @@ export default class DayCycleStrings extends MafiaGameStrings {
                                  }
                              case 'lynch':
                                  return {
-                                     en: ':loudspeaker: :skull_and_crossbones: The town has decided to lynch *' + args + '*',
-                                     fr: ':loudspeaker: :skull_and_crossbones: La ville a décidé de lyncher *' + args + '*',
+                                     en: ':loudspeaker: :fire: The town has decided to lynch *' + args + '*',
+                                     fr: ':loudspeaker: :fire: La ville a décidé de lyncher *' + args + '*',
                                  }
                              case 'innocent':
                                  return {

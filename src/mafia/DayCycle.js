@@ -45,11 +45,11 @@ const str = new DayCycleStrings(LANG)
                         this.makeAnnouncements()
                         .then(() => this.game.showGraveyard(chan))
                         .then(() => this.game.resetCleaned())
-                        .then(() => sleep(1))
-                        .then(() => this.game.showAlive(chan))
                         .then(() => sleep(2))
+                        .then(() => this.game.showAlive(chan))
+                        .then(() => sleep(4))
                         .then(() => {
-                            const hasWon = this.game.checkVictory()
+                            const hasWon = this.game.checkVictory(true)
                                 if (hasWon) {
                                     this.game.resolveVictory(hasWon)
                                 } else {
@@ -65,7 +65,7 @@ const str = new DayCycleStrings(LANG)
         // Check for win
         // Else emit new night cycle
         end() {
-            const hasWon = this.game.checkVictory()
+            const hasWon = this.game.checkVictory(false)
                 if (hasWon) {
                     this.game.resolveVictory(hasWon)
                 } else {
@@ -96,14 +96,17 @@ const str = new DayCycleStrings(LANG)
             const chan = this.game.getTownRoom()
                 const resPoll = poll.getMaxVoted()
                 // no lynch if multiple max votes
+                console.log("endDebatePoll")
                 if (resPoll.maxVote > 0 && resPoll.targets.length == 1) {
                     // if multiple suspects, take randomly
                     //let suspect = _.sample(]resPoll.targets)
                     let suspect = resPoll.targets[0]
+                        console.log(suspect)
                         suspect = _.find(this.game.players, {
                             name: suspect
                         })
-                    const text = str.endDebate('trial', { name: suspect.name, time: String(DAY_TRIAL) })
+                    const text = str.endDebate('trial', { id: suspect.id, name: suspect.name, time: String(DAY_TRIAL) })
+                    console.log(text)
                         this.game.postMessage(chan, text)
                         .then(() => {
                             const muted = _.filter(this.game.getPlayers(), (o) => o.id != suspect.id)
@@ -155,12 +158,13 @@ const str = new DayCycleStrings(LANG)
                 const suspect = _.find(this.game.getPlayers(), { id: playerId })
                 const result = _.sample(resPoll.targets)
                 let text = ''
-
+                console.log('endTrialPoll')
                 if (resPoll.maxVote > 0) {
                     if (resPoll.targets.length > 1) {
+                        console.log('endTrialPoll 1')
                         text = str.endTrial('draw')
                             this.game.postMessage(chan, text)
-                            .then(() => sleep(3))
+                            .then(() => sleep(5))
                             .then(() => {
                                 if (Math.random() > 0.5) {
                                     this.game.postMessage(chan, str.endTrial('die'))
@@ -176,7 +180,8 @@ const str = new DayCycleStrings(LANG)
                                 }
                             })
                     } else if (result == misc.yes) {
-                        this.game.postMessage(chan, str.endTrial('lynch', suspect.name))
+                        console.log('endTrialPoll 2')
+                        this.game.postMessage(chan, str.endTrial('lynch', suspect.getDisplayedName()))
                             .then(() => {
                                 this.kills.push({ type: 'kill', player: 'Town', target: suspect.name, killType: 'lynch' })
                                     this.game.newVictim(suspect, ['lynch'])
@@ -184,16 +189,19 @@ const str = new DayCycleStrings(LANG)
                             })
 
                     } else {
-                        text = str.endTrial.innocent + ' ' + suspect.name + ' :innocent:'
+                        console.log('endTrialPoll 3')
+                        text = str.endTrial('innocent', suspect.getDisplayedName())
                             this.game.postMessage(chan, text)
                             .then(() => this.restartDebate())
                     }
                 } else {
+                    console.log('endTrialPoll 4')
                     text = str.endTrial('noVote')
                         this.game.postMessage(chan, text)
                         .then(() => this.end())
 
                 }
+                console.log('endTrialPoll 5')
         }
 
         // If it's possible, restart a poll to find a suspect
@@ -218,15 +226,19 @@ const str = new DayCycleStrings(LANG)
                     .length : 14
                     const chan = this.game.getTownRoom()
                     this.game.postMessage(chan, str.announcements(nKills))
-                    .then(() => sleep(2))
+                    .then(() => sleep(5))
                     .then(() => {
                         async.forEachSeries(_.keys(kills), (key, callback) => {
+                            console.log("night's kills:")
+                            console.log(key)
                             const victim = _.find(this.game.players, {
                                 name: key
                             })
+                            console.log(victim)
                             const killTypes = _.map(kills[key], 'killType')
+                            console.log(killTypes)
                                 this.game.newVictim(victim, killTypes)
-                                .then(() => sleep(2))
+                                .then(() => sleep(5))
                                 .then(() => callback())
                         }, () => resolve(true))
                     })

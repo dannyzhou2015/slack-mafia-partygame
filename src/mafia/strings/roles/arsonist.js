@@ -33,7 +33,7 @@ export default class ArsonistStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Either douse a person in gasoline or kill all previously doused targets at night.',
+                                     en: 'Douse someone in gasoline, or set fire on all previously doused targets at night.',
                                      fr: 'Soit verse de l\'essence chez une personne, soit enflamme les personnes déjà arrosées.'
                                  }
                          }
@@ -73,7 +73,7 @@ export default class ArsonistStrings extends MafiaGameStrings {
                                  }
                              case 'doused':
                                  return {
-                                     en: ':fuelpump: *You have been doused!*',
+                                     en: ':fuelpump: *Someone doused you in gasoline!*',
                                      fr: ':fuelpump: *Quelqu\'un vous a versé de l\'essence dessus!*'
                                  }
                              case 'noDouse':

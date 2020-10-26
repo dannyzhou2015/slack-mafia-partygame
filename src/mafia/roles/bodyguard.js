@@ -11,7 +11,7 @@ const str = new BodyguardStrings(LANG)
     let bodyguard = {
         name: 'Bodyguard',
         affiliation: 'Town',
-        category: 'mememsm Town Supportive',
+        category: 'Town Supportive', // caveat solved
         desc: {
             name: str.desc('name'),
             particle: str.desc('particle'),
@@ -42,31 +42,41 @@ const str = new BodyguardStrings(LANG)
 
         resolveNightAbility(player, events) {
             return new Promise((resolve, reject) => {
+                console.log("bodyguard 1")
                 const resPoll = player.poll.getMaxVoted()
                     let text
                     if (resPoll.maxVote > 0) {
+                        console.log("bodyguard 2")
                         const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                            const finalEvents = []
-                            text = str.resolveNightAbility('protection', target.name)
-                            _.forEach(events, event => {
-                                b = true
-                                    if ((event.type == 'kill' && event.target == target.name)) {
-                                        let killer = _.find(player.game.players, { name: event.player })
-                                            if ((_.indexOf(['Veteran', 'Bodyguard'], killer.role.name) == -1) || b) {
-                                                player.game.gameEmitter.emit('nightEvent', { type: 'kill', player: player.name, target: killer.name })
-                                                    b = false
-                                            } else {
-                                                finalsEvents.push(event)
-                                            }
-                                    } else {
-                                        finalEvents.push(event)
-                                    }
-                            })
-                        this.game.postMessage(player.id, text)
+                        const finalEvents = []
+                        text = str.resolveNightAbility('protection', '<@'+target.id+'>')
+                        console.log("bodyguard 3")
+                        let b = true
+                        console.log(events)
+                        _.forEach(events, event => {
+                                console.log("bodyguard 4")
+                                if ((event.type == 'kill' && event.target == target.name && event.player != event.target)) {
+                                    let killer = _.find(player.game.players, { name: event.player })
+                                        if ((_.indexOf(['Veteran', 'Bodyguard'], killer.role.name) == -1) && b) {
+                                            //player.game.gameEmitter.emit('nightEvent', { type: 'kill', player: player.name, target: killer.name })
+                                            finalEvents.push({ type: 'kill', killType:'bodyguard', player: player.name, target: killer.name })
+                                                b = false
+                                        } else {
+                                            finalsEvents.push(event)
+                                        }
+                                } else {
+                                    finalEvents.push(event)
+                                }
+                        })
+                        console.log("bodyguard 5")
+                        console.log(events)
+                        console.log(finalEvents)    
+                        player.game.postMessage(player.id, text)
                             .then(() => resolve(finalEvents))
                     } else {
-                        this.game.postMessage(player.id, str.resolveNightAbility('noProtection'))
-                            .then(() => resolve(false))
+                        console.log("bodyguard 6")
+                        player.game.postMessage(player.id, str.resolveNightAbility('noProtection'))
+                            .then(() => resolve(true))
                     }
             })
         },

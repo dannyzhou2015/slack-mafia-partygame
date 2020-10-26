@@ -97,8 +97,8 @@ export default class GameStrings extends MafiaGameStrings {
                                  }
                              case 'updateRole':
                                  return {
-                                     en: 'The mafia need more henchmen. *<@' + args + '>* is now a mafioso',
-                                     fr: 'La mafia a besoin d\'hommes de main. *<@' + args + '>* est maintenant un mafioso.'
+                                     en: 'The mafia need more henchmen. *' + args + '* is now a mafioso',
+                                     fr: 'La mafia a besoin d\'hommes de main. *' + args + '* est maintenant un mafioso.'
                                  }
                          }
                      }
@@ -144,13 +144,13 @@ export default class GameStrings extends MafiaGameStrings {
                          switch (category) {
                              case 'announce':
                                  return {
-                                     en: '*' + args.name + '* is dead. ' + args.lynch + args.killType + ' He/She was ' + ' *' + args.role + '*',
-                                     fr: '*' + args.name + '* est mort. ' + args.lynch + args.killType + ' Il/elle était ' + ' *' + args.role + '*'
+                                     en: '*<@' + args.id + '>* is dead. ' + args.lynch + args.killType + ' He/She was' + ' *' + args.role + '*',
+                                     fr: '*<@' + args.id + '>* est mort. ' + args.lynch + args.killType + ' Il/elle était' + ' *' + args.role + '*'
                                  }
                              case 'info':
                                  return {
-                                     en: ':loudspeaker: :skull: You have been killed. You cannot participate in the ongoing game anymore. Please do not send direct messages to other players who are still alive.',
-                                     fr: ':loudspeaker: :skull: Vous avez été éliminé. Vous ne pouvez plus participer au jeu. Veuillez à ne pas communiquer avec les autres joueurs restants dans la partie.'
+                                     en: ':loudspeaker: :boom: You have been killed. You cannot participate in the ongoing game anymore. Please do not send direct messages to other players who are still alive.',
+                                     fr: ':loudspeaker: :boom: Vous avez été éliminé. Vous ne pouvez plus participer au jeu. Veuillez à ne pas communiquer avec les autres joueurs restants dans la partie.'
                                  }
                          }
                      }
@@ -173,7 +173,7 @@ export default class GameStrings extends MafiaGameStrings {
                              case 'arsonist':
                                  return {
                                      en: ['He/she was incinerated. :fire:',
-                                     'He / She was burnt to death. :fire:',
+                                     'He / She was burnt to a crisp. :fire:',
                                      'He / She was killed in a fire. :fire:'
                                      ],
                                      fr: ['Il/Elle a été immolé(e). :fire:',
@@ -262,7 +262,7 @@ export default class GameStrings extends MafiaGameStrings {
                                  }
                              case 'Jester':
                                  return {
-                                     en: 'The jester has won! :clown_face:',
+                                     en: 'The jester has won! You fulfilled his/her wish to be lynched! :clown_face:',
                                      fr: 'Le bouffon a gagné! (enfin pas vraiment)'
                                  }
                              case 'Draw':

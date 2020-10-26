@@ -43,17 +43,33 @@ const str = new JanitorStrings(LANG)
         resolveNightAbility(player) {
             return new Promise((resolve, reject) => {
                 const resPoll = player.poll.getMaxVoted()
-                    let text
-                    if (resPoll.maxVote > 0) {
-                        const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                            target.isSanitized = true
-                            text = str.resolveNightAbility('sanitize', target.name)
+                let text, target
+                if (resPoll.maxVote > 0) {
+                    target = _.find(player.game.players, { name: resPoll.targets[0] })
+                    if (target) {
+                        target.isSanitized = true
+                        // target.isDoused = false
+                        // player.game.postMessage(target.id, str.resolveNightAbility('undoused'))
+                        text = str.resolveNightAbility('sanitize', '<@'+target.id+'>')
                     } else {
-                        text = str.resolveNightAbility('noSanitize')
+                        text = str.resolveNightAbility('noSanitize')    
                     }
-                player.game.postMessage(player.id, text)
-                    .then(() => target.showLastWill(player.id))
-                    .then(() => resolve(true))
+                } else {
+                    text = str.resolveNightAbility('noSanitize')
+                }
+                console.log("resolving janitor night ability")
+                console.log("target is ")
+                console.log(target)
+                console.log(text)
+                if (target) {
+                    player.game.postMessage(player.id, text)
+                        .then(() => target.showLastWill(player.id))
+                        .then(() => resolve(true))
+                } else {
+                    player.game.postMessage(player.id, text)
+                        .then(() => resolve(true))
+                }
+                
             })
         },
 

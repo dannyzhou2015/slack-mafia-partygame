@@ -28,18 +28,22 @@ export default class Player {
         this.role.activateNightAbility(this)
     }
 
+    getDisplayedName() {
+        return '<@'+this.id+'>'
+    }
+
     resolveNightAbility(events) {
         return new Promise((resolve, reject) => {
             if (this.role.immuneToRoleBlock) {
                 this.role.resolveNightAbility(this, events)
-                    .then(() => resolve(true))
+                    .then((res) => {console.log("res1");console.log(res);resolve(res)})
             } else {
                 if (this.roleBlocked) {
                     this.game.postMessage(this.id, misc.roleBlocked)
-                        .then(() => resolve(true))
+                        .then((res) => {console.log("res2");console.log(res);resolve(res)})
                 } else {
                     this.role.resolveNightAbility(this, events)
-                        .then(() => resolve(true))
+                        .then((res) => {console.log("res3");console.log(res);resolve(res)})
                 }
             }
         })
@@ -81,11 +85,14 @@ export default class Player {
 
     showLastWill(chan) {
         return new Promise((resolve, reject) => {
+            console.log("lastwill1")
             let lastWill = this.lastWill.length > 0 ? this.lastWill : 'empty'
-                let text = misc.lastWill(this.name)
+                let text = misc.lastWill('<@' + this.id + '>')
                 text = '_' + text + '_:\n ```' + lastWill + '```'
+                console.log("lastwill2")
                 this.game.postMessage(chan, text)
                 .then(() => resolve(true))
+                console.log("lastwill3")
         })
     }
 

@@ -33,7 +33,7 @@ export default class CopStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Check one player each night for criminal activity.',
+                                     en: 'Check one person each night for criminal activity.',
                                      fr: 'Enquête sur les activités criminelles d\'un joueur chaque nuit'
                                  }
                          }

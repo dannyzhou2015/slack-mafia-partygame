@@ -33,7 +33,7 @@ export default class DoctorStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Visit someone at night to save them if someone tries to kill them.',
+                                     en: 'Visit someone at night to save him/her in case he/she is attacked.',
                                      fr: 'Choisit un joueur pour tenter de le sauver si il est la cible d\'un assassinat.'
                                  }
                          }

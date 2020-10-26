@@ -33,7 +33,7 @@ export default class FramerStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Frame one player each night. The player will appear as suspicious for investigative roles only for that night.',
+                                     en: 'Frame someone each night. He/she will appear as suspicious for investigative roles only for that night.',
                                      fr: 'Fausse l\'identité d\'un joueur. Il apparaîtra comme suspect aux yeux des enquêteurs seulement cette nuit là.'
                                  }
                          }

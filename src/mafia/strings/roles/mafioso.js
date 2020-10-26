@@ -33,7 +33,7 @@ export default class MafiosoStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Kill citizens.',
+                                     en: 'Shoot someone, as voted by the Mafia.',
                                      fr: 'Assassine des citoyens.'
                                  }
                          }

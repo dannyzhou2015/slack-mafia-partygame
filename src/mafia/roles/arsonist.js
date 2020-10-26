@@ -61,7 +61,7 @@ const str = new ArsonistStrings(LANG)
                             text = str.resolveNightAbility('burn')
                         } else {
                             const target = _.find(player.game.players, { name: resPoll.targets[0] })
-                                text = str.resolveNightAbility('douse', target.name)
+                                text = str.resolveNightAbility('douse', '<@'+target.id+'>')
                                 target.isDoused = true
                                 player.game.postMessage(target.id, str.resolveNightAbility('doused'))
                         }

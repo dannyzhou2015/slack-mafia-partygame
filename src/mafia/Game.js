@@ -32,6 +32,7 @@ const str = new GameStrings(LANG)
                     dayCount: 0
                 }
                 this.gameDone = false;
+                this.jesterLynched = false;
         }
 
         // Initialisation of the game: Give a role to each player
@@ -230,21 +231,37 @@ const str = new GameStrings(LANG)
                 this.postMessage(this.getTownRoom(), str.noSetup(n))
                     .then(() => this.end())
             }
-
-            _.forEach(setup.roles, role => {
+            console.log("setting up roles")
+            setup.roles && _.forEach(setup.roles, role => {
                 roles.push(new Role(_.find(arrayRoles, { name: role })))
             })
-            _.forOwn(setup.configurations, (count, category) => {
-                let possibleRoles = _.filter(arrayRoles, { category: category })
+            console.log("setting up dynamic roles")
+            setup.configurations && _.forOwn(setup.configurations, (count, category) => {
+                let possibleRoles = []
+                for (let i in arrayRoles) {
+                    console.log(category)
+                    if (arrayRoles[i].category.startsWith(category)){
+                        possibleRoles.push(arrayRoles[i]);
+                    }
+                }
+                //_.filter(arrayRoles, { category: category })
+                console.log(arrayRoles)
+                console.log(category)
+                console.log(possibleRoles)
                     for (let i = 0; i < count; i++) {
                         let role = _.sample(possibleRoles)
+                        console.log("role")
+                        console.log(role)
                             while (!this.validateRole(role, roles)) {
                                 role = _.sample(possibleRoles)
                             }
                         role = new Role(role)
                             roles.push(role)
+                        console.log("roles")
+                        console.log(roles)
                     }
             })
+            console.log("setting up dynamic roles end")
             if (roles.length < n)
                 roles.fill(new Role(_.find(arrayRoles, { name: 'Citizen'}) ,roles.length - 1, n))
                     return _.shuffle(roles)
@@ -290,9 +307,11 @@ const str = new GameStrings(LANG)
             const graveyard = []
                 _.forEach(this.getPlayers({ alive: false }), p => {
                     showRole ? graveyard.push({
+                        id:   p.id,
                         name: p.name,
                         role: p.role.desc.name
                     }) : graveyard.push({
+                        id:   p.id,
                         name: p.name
                     })
                 })
@@ -321,7 +340,7 @@ const str = new GameStrings(LANG)
                 const graveyard = this.getGraveyard()
                     let text = str.show('graveyard')
                     _.forEach(graveyard, player => {
-                        text += ':skull: ' + player.name + ' (*' + player.role + '*) '
+                        text += ':skull: <@' + player.id + '> (*' + player.role + '*) '
                     })
                 this.postMessage(chan, text)
                     .then(() => resolve(true))
@@ -334,7 +353,7 @@ const str = new GameStrings(LANG)
                 const alive = this.getPlayers()
                     let text = str.show('alive')
                     _.forEach(alive, player => {
-                        text += ':innocent: ' + player.name + ' '
+                        text += ':innocent: <@' + player.id + '> '
                     })
                 this.postMessage(chan, text)
                     .then(() => resolve(true))
@@ -347,7 +366,7 @@ const str = new GameStrings(LANG)
                 const chan = this.getTownRoom()
                     let text = str.show('score')
                     _.forEach(this.players, player => {
-                        text += player.name + ' (*' + player.role.desc.name + '*) :arrow_right: ' + String(player.score) + '\n'
+                        text += '<@'+player.id + '> (*' + player.role.desc.name + '*) :arrow_right: ' + String(player.score) + '\n'
                     })
                 this.postMessage(chan, text)
                     .then(() => resolve(true))
@@ -359,7 +378,7 @@ const str = new GameStrings(LANG)
                 const chan = this.getTownRoom()
                     let text = str.show('leaderboard')
                     for (let i = 0; i < scores.length; i++) {
-                        text += String(i + 1) + '. *' + scores[i].playerName + '* :arrow_right: ' + String(scores[i].score) + '\n'
+                        text += String(i + 1) + '. *<@' + scores[i].playerId + '>* :arrow_right: ' + String(scores[i].score) + '\n'
                     }
                 this.postMessage(chan, text)
                     .then(() => resolve(true))
@@ -368,8 +387,12 @@ const str = new GameStrings(LANG)
 
 
         // check for victory
-        checkVictory() {
+        checkVictory(isStartOfDay) {
             let winners = false
+            if (this.jesterLynched) {
+                winners = 'Jester'
+                return winners
+            }
                 const nAll = this.getPlayers()
                 .length
                 const nMafia = this.getPlayers({ filters: { affiliation: 'Mafia' } })
@@ -378,18 +401,19 @@ const str = new GameStrings(LANG)
                 .length
                 const nNeutral = this.getPlayers({ filters: { affiliation: 'Neutral' } })
                 .length
-                const neutralKilling = this.getPlayers({ filters: { category: 'Neutral Killing' } })
+                const nNeutralKilling = this.getPlayers({ filters: { category: 'Neutral Killing' } }).length
+                const nNeutralBenign = this.getPlayers({ filters: { category: 'Neutral Benign' } }).length
                 
 
-                if (nAll == 2 && (nMafia == 1 || nTown == 1 || nNeutral == 1 || neutralKilling == 1)) {
-                    winners = 'DrawEven'
+                if (isStartOfDay && nAll == 2 && (nMafia == 1 || nTown == 1 || nNeutral == 1 || nNeutralKilling == 1)) {
+                    //winners = 'DrawEven'
                 } else if (nMafia == 0 && nNeutral == 0 && nTown == 0) {
                     winners = 'Draw'
-                } else if (nMafia == 0 && neutralKilling.length == 0 && nTown > 0) {
+                } else if (nMafia == 0 && nNeutralKilling == 0 && nTown > 0) {
                     winners = 'Town'
-                } else if (nMafia > 0 && neutralKilling.length == 0 && nTown == 0) {
+                } else if (nMafia > 0 && nNeutralBenign == 0 && nNeutralKilling == 0 && nTown == 0) {
                     winners = 'Mafia'
-                } else if (nMafia == 0 && neutralKilling.length > 0 && nTown == 0) {
+                } else if (nMafia == 0 && nNeutralBenign == 0 && nNeutralKilling > 0 && nTown == 0) {
                     const nArsonist = this.getPlayers({ filters: { name: 'Arsonist' } })
                         .length
                         if (nArsonist > 0) {
@@ -397,7 +421,7 @@ const str = new GameStrings(LANG)
                         } else {
                             winners = 'SerialKiller'
                         }
-                } else if (nMafia == 0 && neutralKilling.length && nTown == 0 & nNeutral > 0) {
+                } else if (nMafia == 0 && nNeutralKilling && nTown == 0 & nNeutral > 0) {
                     const nSurvivor = this.getPlayers({ filters: { name: 'Survivor' } })
                         .length
                         if (nSurvivor > 0) {
@@ -417,7 +441,7 @@ const str = new GameStrings(LANG)
                 const textWin = str.victory(winners)
 
                 this.postMessage(chan, textEnd)
-                .then(() => sleep(2))
+                .then(() => sleep(5))
                 .then(() => this.postMessage(chan, textWin))
                 .then(() => this.downloadLeaderboard())
                 .then(() => this.scorer(winners))
@@ -447,9 +471,9 @@ const str = new GameStrings(LANG)
                             }
                         // Solo role
                             else if (player.role.name == winners) {
-                                if (player.isAlive) {
-                                    player.score += 80
-                                }
+                                //if (player.isAlive) {
+                                player.score += 80
+                                //}
                             }
                         if (player.isAlive) {
                             // 10 points for staying alive (30 for survivor)
@@ -578,7 +602,7 @@ const str = new GameStrings(LANG)
                 if (!killer) {
                     const newMafioso = _.sample(mafia)
                         newMafioso.role = new Role(_.find(arrayRoles, { name: 'Mafioso' }))
-                        this.postMessage(this.getMafiaRoom(), str.mafia('updateRole', newMafioso.name))
+                        this.postMessage(this.getMafiaRoom(), str.mafia('updateRole', newMafioso.getDisplayedName()))
                         .then(() => resolve(true))
                 } else {
                     resolve(true)
@@ -592,6 +616,7 @@ const str = new GameStrings(LANG)
         // If the player was mafia, kick him from mafia channel
         newVictim(victim, killTypes) {
             return new Promise((resolve, reject) => {
+                console.log("newVictim 1")
                 if (victim.isSanitized) {
                     victim.role.desc.name = misc.cleaned
                         victim.lastWill = ''
@@ -599,16 +624,20 @@ const str = new GameStrings(LANG)
                 if (killTypes instanceof String) {
                     killTypes = [killTypes]
                 }
+                console.log("newVictim 2")
                 const textKillTypes = _.join(_.map(killTypes, x => str.kills(x)), '\n ')
                     const text = str.victim('announce', {
+                        id: victim.id,
                         name: victim.name,
                         role: victim.role.desc.name,
                         killType: textKillTypes,
                         lynch: (_.indexOf(killTypes, 'lynch') > -1) ? str.isLynch() : ''
                     })
                 victim.isAlive = false
+                console.log("newVictim 3")
                     if (victim.role.name == 'Jester' && (_.indexOf(killTypes, 'lynch') > -1)) {
-                        victim.score += 50
+                        // Jester has been lynched! he/she wins!
+                        this.jesterLynched = true
                     }
                 this.postMessage(this.getTownRoom(), text)
                     .then(() => victim.showLastWill(this.getTownRoom()))

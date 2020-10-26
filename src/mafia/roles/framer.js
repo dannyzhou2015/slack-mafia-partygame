@@ -47,7 +47,7 @@ const str = new FramerStrings(LANG)
                     if (resPoll.maxVote > 0) {
                         const target = _.find(player.game.players, { name: resPoll.targets[0] })
                             target.isFramed = true
-                            text = str.resolveNightAbility('frame', target.name)
+                            text = str.resolveNightAbility('frame', '<@'+target.id+'>')
                     } else {
                         text = str.resolveNightAbility('noFrame')
                     }

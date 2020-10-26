@@ -33,7 +33,7 @@ export default class JesterStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Jester has no ability.',
+                                     en: 'Jester has no night ability.',
                                      fr: 'Pas de compétences.'
                                  }
                          }

@@ -33,7 +33,7 @@ export default class CitizenStrings extends MafiaGameStrings {
                                  }
                              case 'nightAbility':
                                  return {
-                                     en: 'Citizens have no special traits. Sometimes they can get a bulletproof vest.',
+                                     en: 'Citizens have no special traits.',
                                      fr: 'Le citoyen n\'a pas de compétences particulières. Il est possible qu`il possède un gilet pare balles.'
                                  }
                          }
