@@ -389,10 +389,6 @@ const str = new GameStrings(LANG)
         // check for victory
         checkVictory(isStartOfDay) {
             let winners = false
-            if (this.jesterLynched) {
-                winners = 'Jester'
-                return winners
-            }
                 const nAll = this.getPlayers()
                 .length
                 const nMafia = this.getPlayers({ filters: { affiliation: 'Mafia' } })
@@ -406,7 +402,7 @@ const str = new GameStrings(LANG)
                 
 
                 if (isStartOfDay && nAll == 2 && (nMafia == 1 || nTown == 1 || nNeutral == 1 || nNeutralKilling == 1)) {
-                    //winners = 'DrawEven'
+                    winners = 'DrawEven'
                 } else if (nMafia == 0 && nNeutral == 0 && nTown == 0) {
                     winners = 'Draw'
                 } else if (nMafia == 0 && nNeutralKilling == 0 && nTown > 0) {
@@ -636,7 +632,6 @@ const str = new GameStrings(LANG)
                 victim.isAlive = false
                 console.log("newVictim 3")
                     if (victim.role.name == 'Jester' && (_.indexOf(killTypes, 'lynch') > -1)) {
-                        // Jester has been lynched! he/she wins!
                         this.jesterLynched = true
                     }
                 this.postMessage(this.getTownRoom(), text)
