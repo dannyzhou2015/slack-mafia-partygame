@@ -388,8 +388,12 @@ const str = new GameStrings(LANG)
 
         // check for victory
         checkVictory(isStartOfDay) {
+            if (this.jesterLynched) {
+                winner = "Jester"
+            }
             let winners = false
-                const nAll = this.getPlayers()
+                const allPlayers = this.getPlayers();
+                const nAll = allPlayers
                 .length
                 const nMafia = this.getPlayers({ filters: { affiliation: 'Mafia' } })
                 .length
@@ -427,6 +431,10 @@ const str = new GameStrings(LANG)
                         }
                 }
 
+                _.forEach(allPlayers, player => {
+                    player.daysAlive++;
+                })
+
             return winners
         }
 
@@ -452,6 +460,10 @@ const str = new GameStrings(LANG)
                     _.forEach(this.players, player => {
                         // 5 points for participating
                         player.score += 5
+                        // 5 points for each day player spent alive in the game
+                        if (player.daysAlive) {
+                            player.score += 5 * player.daysAlive
+                        }
                             // Mafia or town victory
                             if (player.role.affiliation == winners) {
                                 switch (winners) {
@@ -635,7 +647,7 @@ const str = new GameStrings(LANG)
                 victim.isAlive = false
                 console.log("newVictim 3")
                     if (victim.role.name == 'Jester' && (_.indexOf(killTypes, 'lynch') > -1)) {
-                        this.jesterLynched = true
+                        this.jesterLynched = true;
                     }
                 this.postMessage(this.getTownRoom(), text)
                     .then(() => victim.showLastWill(this.getTownRoom()))

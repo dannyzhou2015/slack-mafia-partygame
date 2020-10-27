@@ -20,6 +20,7 @@ export default class Player {
             this.lastWill = ''
             this.crimes = []
             this.score = 0
+            this.daysAlive = 0
             this.poll
 
     }
