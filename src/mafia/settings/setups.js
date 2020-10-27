@@ -64,11 +64,10 @@ const setups = {
     9: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso'],
         configurations: {
             'Town Protective': 1,
-            'Town': 1,
-            'Town': 1,
+            'Town': 3,
             'Mafia Support': 1,
             'Neutral': 1
         }
@@ -77,11 +76,10 @@ const setups = {
     10: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso'],
         configurations: {
             'Town Protective': 1,
-            'Town': 1,
-            'Town': 1,
+            'Town': 3,
             'Mafia Support': 1,
             'Neutral': 1,
             'Neutral Killing': 1
@@ -91,61 +89,110 @@ const setups = {
     11: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 3,
+            'Mafia Support': 1,
+            'Neutral': 2,
+            'Neutral Killing': 1
+        }
     }
     ],
     12: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 3,
+            'Mafia Support': 1,
+            'Neutral': 2,
+            'Neutral Killing': 1
+        }
     }
     ],
     13: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 3,
+            'Mafia Support': 2,
+            'Neutral': 2,
+            'Neutral Killing': 1
+        }
     }
     ],
     14: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 4,
+            'Mafia Support': 2,
+            'Neutral': 2,
+            'Neutral Killing': 1
+        }
     }
     ],
     15: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 4,
+            'Mafia Support': 2,
+            'Neutral': 3,
+            'Neutral Killing': 1
+        }
     }
     ],
     16: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 5,
+            'Mafia Support': 2,
+            'Neutral': 3,
+            'Neutral Killing': 1
+        }
     }
     ],
     17: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
+        configurations: {
+            'Town Protective': 1,
+            'Town': 5,
+            'Mafia Support': 3,
+            'Neutral': 3,
+            'Neutral Killing': 1
+        }
     }
     ],
     18: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
     }
     ],
     19: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
     }
     ],
     20: [
     {
         id: 'default',
-        roles: ['Cop', 'Godfather', 'Doctor'],
+        roles: ['Cop', 'Godfather', 'Mafioso', 'Doctor'],
     }
     ]
 }

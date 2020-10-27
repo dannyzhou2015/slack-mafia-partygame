@@ -8,7 +8,7 @@ const str = new CitizenStrings(LANG)
     let citizen = {
         name: 'Citizen',
         affiliation: 'Town',
-        category: 'Town Government',
+        category: 'asdfTown Government',
         desc: {
             name: str.desc('name'),
             particle: str.desc('particle'),

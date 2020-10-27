@@ -589,6 +589,9 @@ const str = new GameStrings(LANG)
         updateMafiaRoles() {
             return new Promise((resolve, reject) => {
                 const mafia = this.getPlayers({ filters: { affiliation: 'Mafia' } })
+                    if ((mafia.length) == 0) {
+                        resolve(true)    
+                    }
                     let killer = false
                     _.forEach(mafia, m => {
                         if (m.role.category == 'Mafia Killing') {
