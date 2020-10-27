@@ -17,7 +17,7 @@ const str = new JesterStrings(LANG)
             nightAbility: str.desc('nightAbility')
         },
         params: {
-            isUnique: false,
+            isUnique: true,
             investigationCop: misc.investigation.innocent
         },
 

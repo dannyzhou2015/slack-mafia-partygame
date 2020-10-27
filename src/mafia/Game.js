@@ -484,6 +484,10 @@ const str = new GameStrings(LANG)
                                 //}
                             }
                         if (player.isAlive) {
+                            if (winners == "DrawEven") {
+                                // 30 points for alive in a draw
+                                player.score += 30
+                            }
                             // 10 points for staying alive (30 for survivor)
                             if (player.role.name == 'Survivor') {
                                 player.score += 30

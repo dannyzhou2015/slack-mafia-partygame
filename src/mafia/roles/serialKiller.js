@@ -22,7 +22,7 @@ const str = new SerialKillerStrings(LANG)
         params: {
             isUnique: false,
             investigationCop: misc.investigation.serialKiller,
-            hasNightImmunity: false
+            hasNightImmunity: true
         },
 
         activatePreNightAbility() {
