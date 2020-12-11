@@ -388,10 +388,11 @@ const str = new GameStrings(LANG)
 
         // check for victory
         checkVictory(isStartOfDay) {
-            if (this.jesterLynched) {
-                winner = "Jester"
-            }
             let winners = false
+            if (this.jesterLynched) {
+                winners = "Jester"
+                return winners
+            }
                 const allPlayers = this.getPlayers();
                 const nAll = allPlayers
                 .length
